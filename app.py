@@ -131,8 +131,6 @@ if st.session_state.current_q is None:
     load_new_question()
 
 # --- HEADER: GAMIFICATION ---
-c1, c2, c3 = st.columns([1, 2, 1])
-current_rank = get_rank(st.session_state.xp)
 def get_rank(xp):
     if xp < 100: return "Novice"
     if xp < 500: return "Voyager"
@@ -141,9 +139,12 @@ def get_rank(xp):
     if xp < 10000: return "Universal Translator"
     return "Galactic Linguist"
 
+c1, c2, c3 = st.columns([1, 2, 1])
+current_rank = get_rank(st.session_state.xp) # Now the function is defined!
+
 with c1:
     st.markdown(f"🔥 **Streak: {st.session_state.streak}**")
-    st.markdown(f"🏆 **Rank: {current_rank}**") # Added Rank Display
+    st.markdown(f"🏆 **Rank: {current_rank}**")
 
 with c2:
     # Calculate progress toward the next 100 XP milestone for the bar
