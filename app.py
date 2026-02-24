@@ -13,7 +13,7 @@ import os
 import pandas as pd
 
 # --- CONFIGURATION ---
-st.set_page_config(page_title="Polyglot Pro", page_icon="🌍", layout="centered")
+st.set_page_config(page_title="Polyglot Prime", page_icon="🌍", layout="centered")
 
 # --- CUSTOM UI STYLING ---
 st.markdown("""
