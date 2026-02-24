@@ -11,6 +11,38 @@ from gtts import gTTS
 import base64
 import os
 import pandas as pd
+from supabase import create_client
+
+# You'll get these from your Supabase dashboard
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_KEY"]
+supabase = create_client(url, key)
+
+if 'user_email' not in st.session_state:
+    with st.form("login_form"):
+        email = st.text_input("Enter Email to Load Progress")
+        submit = st.form_submit_button("Access Terminal")
+        if submit:
+            # Check if user exists in your database
+            response = supabase.table("profiles").select("*").eq("email", email).execute()
+            if response.data:
+                user = response.data[0]
+                st.session_state.user_email = user['email']
+                st.session_state.xp = user['xp']
+                st.session_state.tier = user['tier']
+            else:
+                # Create new user if they don't exist
+                supabase.table("profiles").insert({"email": email, "xp": 0, "tier": "Free"}).execute()
+                st.session_state.user_email = email
+                st.session_state.xp = 0
+            st.rerun()
+    st.stop() # Don't show the app until they "log in"
+
+if option == q_data["a"]:
+    st.session_state.xp += 10
+    # Sync to Cloud
+    supabase.table("profiles").update({"xp": st.session_state.xp}).eq("email", st.session_state.user_email).execute()
+    st.success("✅ Correct! +10 XP Saved to Cloud.")
 
 # --- CONFIGURATION ---
 st.set_page_config(page_title="Polyglot Prime", page_icon="🌍", layout="centered")
