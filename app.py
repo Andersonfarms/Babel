@@ -52,7 +52,8 @@ def load_cloud_database():
     "Vulcan": "1706569588",
     "Hebrew": "2050849856",
     "Cherokee": "536791395",
-    "Klingon": "226168764"
+    "Klingon": "226168764",
+    "High Valyrian": "23375132"
 }
     
     # We build the master database (keeping the Sci-Fi ones here for now)
@@ -63,10 +64,7 @@ def load_cloud_database():
         "Hebrew":[],
         "Cherokee":[],
         "Klingon": [],
-        "High Valyrian": [
-            {"q": "Rytsas", "p": "(RIT-sas)", "a": "Hello", "options": ["Goodbye", "Hello", "Dragon", "Fire"], "audio": None},
-            {"q": "Dracarys", "p": "(drah-KAH-ris)", "a": "Dragonfire", "options": ["Fly", "Sword", "Dragonfire", "Blood"], "audio": None}
-        ]
+        "High Valyrian": [],
     }
     
     try:
@@ -83,7 +81,7 @@ def load_cloud_database():
             elif lang == "Hebrew":
                 audio_code = "iw" # Modern Hebrew code
             else:
-                audio_code = None # Disables audio for Vulcan, Klingon, and now Cherokee
+                audio_code = None  # Disables audio for Vulcan, Klingon, High Valyrian and now Cherokee
             
             for index, row in df.iterrows():
                 # Grab all the answers and shuffle them
