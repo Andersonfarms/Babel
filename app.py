@@ -150,18 +150,18 @@ if new_lang != st.session_state.target_lang:
 q_data = st.session_state.current_q
 
 # Logic to handle if a language has a 'Script' column
-    display_word = q_data["q"]
-    if "script" in q_data and q_data["script"]:
-        # If Hebrew or similar, show Script (Aleph-bet) and Transliterated side-by-side
-        display_word = f"{q_data['script']} ({q_data['q']})"
+display_word = q_data["q"]
+if "script" in q_data and q_data["script"]:
+    # If Hebrew or similar, show Script (Aleph-bet) and Transliterated side-by-side
+    display_word = f"{q_data['script']} ({q_data['q']})"
         
 # Display the Word and Phonetic Spelling cleanly
 st.markdown(f'''
-<div class="vocab-card">
-    <div class="big-word">{q_data["q"]}</div>
-    <div class="phonetic">{q_data["p"]}</div>
-    <p>Select the correct translation:</p>
-</div>
+    <div class="vocab-card">
+        <div class="big-word">{q_data["q"]}</div>
+        <div class="phonetic">{q_data["p"]}</div>
+        <p>Select the correct translation:</p>
+    </div>
 ''', unsafe_allow_html=True)
 
 if st.button("🔊 Play Audio"):
