@@ -51,7 +51,8 @@ def load_cloud_database():
     "French": "1979626029",
     "Vulcan": "1706569588",
     "Hebrew": "2050849856",
-    "Cherokee": "536791395"
+    "Cherokee": "536791395",
+    "Klingon": "226168764"
 }
     
     # We build the master database (keeping the Sci-Fi ones here for now)
@@ -61,11 +62,7 @@ def load_cloud_database():
         "Vulcan": [],
         "Hebrew":[],
         "Cherokee":[],
-        "Klingon": [
-            {"q": "nuqneH", "p": "(nook-NEKH)", "a": "What do you want? / Hello", "options": ["Goodbye", "What do you want? / Hello", "Honor", "Battle"], "audio": None},
-            {"q": "Qapla'", "p": "(KAH-plah)", "a": "Success!", "options": ["Failure", "Success!", "Attack", "Defend"], "audio": None},
-            {"q": "batlh", "p": "(baht-L)", "a": "Honor", "options": ["Honor", "Cowardice", "Sword", "Ship"], "audio": None}
-        ],
+        "Klingon": [],
         "High Valyrian": [
             {"q": "Rytsas", "p": "(RIT-sas)", "a": "Hello", "options": ["Goodbye", "Hello", "Dragon", "Fire"], "audio": None},
             {"q": "Dracarys", "p": "(drah-KAH-ris)", "a": "Dragonfire", "options": ["Fly", "Sword", "Dragonfire", "Blood"], "audio": None}
