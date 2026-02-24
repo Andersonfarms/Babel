@@ -48,20 +48,19 @@ def load_cloud_database():
     # Define our cloud sources by their Google Sheet 'gid'
     cloud_sources = {
         "Spanish": "0",
-        "French": "1979626029"
+        "French": "1979626029",
+        "Vulcan": "1706569588"
     }
     
     # We build the master database (keeping the Sci-Fi ones here for now)
     master_db = {
         "Spanish": [],
         "French": [],
+        "Vulcan": [],
         "Klingon": [
             {"q": "nuqneH", "p": "(nook-NEKH)", "a": "What do you want? / Hello", "options": ["Goodbye", "What do you want? / Hello", "Honor", "Battle"], "audio": None},
             {"q": "Qapla'", "p": "(KAH-plah)", "a": "Success!", "options": ["Failure", "Success!", "Attack", "Defend"], "audio": None},
             {"q": "batlh", "p": "(baht-L)", "a": "Honor", "options": ["Honor", "Cowardice", "Sword", "Ship"], "audio": None}
-        ],
-        "Vulcan": [
-            {"q": "Dif-tor heh smusma", "p": "(Dif-tor heh smus-mah)", "a": "Live long and prosper", "options": ["Peace and long life", "Live long and prosper", "Logic dictates", "Fascinating"], "audio": None}
         ],
         "High Valyrian": [
             {"q": "Rytsas", "p": "(RIT-sas)", "a": "Hello", "options": ["Goodbye", "Hello", "Dragon", "Fire"], "audio": None},
@@ -75,8 +74,13 @@ def load_cloud_database():
             url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
             df = pd.read_csv(url)
             
-            # Set the correct Google Audio Accent
-            audio_code = "es" if lang == "Spanish" else "fr"
+           # Set the correct Google Audio Accent or Disable for Sci-Fi
+            if lang == "Spanish":
+                audio_code = "es"
+            elif lang == "French":
+                audio_code = "fr"
+            else:
+                audio_code = None # Disables audio for Vulcan/Klingon/etc.
             
             for index, row in df.iterrows():
                 # Grab all the answers and shuffle them
