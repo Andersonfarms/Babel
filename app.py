@@ -49,7 +49,8 @@ def load_cloud_database():
     cloud_sources = {
         "Spanish": "0",
         "French": "1979626029",
-        "Vulcan": "1706569588"
+        "Vulcan": "1706569588",
+        "Hebrew": "2050849856"
     }
     
     # We build the master database (keeping the Sci-Fi ones here for now)
@@ -57,6 +58,7 @@ def load_cloud_database():
         "Spanish": [],
         "French": [],
         "Vulcan": [],
+        "Hebrew":[],
         "Klingon": [
             {"q": "nuqneH", "p": "(nook-NEKH)", "a": "What do you want? / Hello", "options": ["Goodbye", "What do you want? / Hello", "Honor", "Battle"], "audio": None},
             {"q": "Qapla'", "p": "(KAH-plah)", "a": "Success!", "options": ["Failure", "Success!", "Attack", "Defend"], "audio": None},
@@ -79,6 +81,8 @@ def load_cloud_database():
                 audio_code = "es"
             elif lang == "French":
                 audio_code = "fr"
+            elif lang == "Hebrew":
+                audio_code = "iw" # Modern Hebrew code
             else:
                 audio_code = None # Disables audio for Vulcan/Klingon/etc.
             
