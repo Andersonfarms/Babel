@@ -94,6 +94,7 @@ def load_cloud_database():
                 # Add the word to the specific language dictionary
                 master_db[lang].append({
                     "q": str(row[lang]),
+                    "script": str(row["Script"]) if "Script" in df.columns else None,
                     "p": str(row["Phonetic"]),
                     "a": str(row["Correct Translation"]),
                     "options": options,
@@ -148,6 +149,12 @@ if new_lang != st.session_state.target_lang:
 
 q_data = st.session_state.current_q
 
+# Logic to handle if a language has a 'Script' column
+    display_word = q_data["q"]
+    if "script" in q_data and q_data["script"]:
+        # If Hebrew or similar, show Script (Aleph-bet) and Transliterated side-by-side
+        display_word = f"{q_data['script']} ({q_data['q']})"
+        
 # Display the Word and Phonetic Spelling cleanly
 st.markdown(f'''
 <div class="vocab-card">
