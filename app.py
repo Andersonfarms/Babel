@@ -43,13 +43,18 @@ import pandas as pd
 # --- CLOUD DATABASE UPLINK ---
 @st.cache_data(ttl=600) # Memorizes the sheet for 10 minutes for extreme speed
 def load_cloud_database():
-    # Your exact Google Sheet ID
     sheet_id = "1TyURzmvrj_pxPQqonPA8nJuT0nw0QGQxrbznN7ooJyI"
-    url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid=0"
+    
+    # Define our cloud sources by their Google Sheet 'gid'
+    cloud_sources = {
+        "Spanish": "0",
+        "French": "1979626029"
+    }
     
     # We build the master database (keeping the Sci-Fi ones here for now)
     master_db = {
         "Spanish": [],
+        "French": [],
         "Klingon": [
             {"q": "nuqneH", "p": "(nook-NEKH)", "a": "What do you want? / Hello", "options": ["Goodbye", "What do you want? / Hello", "Honor", "Battle"], "audio": None},
             {"q": "Qapla'", "p": "(KAH-plah)", "a": "Success!", "options": ["Failure", "Success!", "Attack", "Defend"], "audio": None},
@@ -65,27 +70,34 @@ def load_cloud_database():
     }
     
     try:
-        # Download the Google Sheet
-        df = pd.read_csv(url)
-        for index, row in df.iterrows():
-            # Grab all the answers and shuffle them so the correct one isn't always first!
-            options = [str(row["Correct Translation"]), str(row["Wrong 1"]), str(row["Wrong 2"]), str(row["Wrong 3"])]
-            random.shuffle(options)
+        # Loop through both the Spanish and French tabs!
+        for lang, gid in cloud_sources.items():
+            url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
+            df = pd.read_csv(url)
             
-            # Add the word to the Spanish dictionary
-            master_db["Spanish"].append({
-                "q": str(row["Spanish"]),
-                "p": str(row["Phonetic"]),
-                "a": str(row["Correct Translation"]),
-                "options": options,
-                "audio": "es"
-            })
+            # Set the correct Google Audio Accent
+            audio_code = "es" if lang == "Spanish" else "fr"
+            
+            for index, row in df.iterrows():
+                # Grab all the answers and shuffle them
+                options = [str(row["Correct Translation"]), str(row["Wrong 1"]), str(row["Wrong 2"]), str(row["Wrong 3"])]
+                random.shuffle(options)
+                
+                # Add the word to the specific language dictionary
+                master_db[lang].append({
+                    "q": str(row[lang]),
+                    "p": str(row["Phonetic"]),
+                    "a": str(row["Correct Translation"]),
+                    "options": options,
+                    "audio": audio_code
+                })
     except Exception as e:
-        st.error("⚠️ Cloud Database Uplink Failed. Did you set the Google Sheet to 'Anyone with the link can view'?")
+        st.error("⚠️ Cloud Database Uplink Failed. Check your Sheet IDs.")
         
     return master_db
 
 VOCAB_DB = load_cloud_database()
+
 # --- HYBRID AUDIO GENERATOR ---
 def play_audio(text, lang_code):
     if lang_code is None:
