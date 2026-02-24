@@ -47,11 +47,12 @@ def load_cloud_database():
     
     # Define our cloud sources by their Google Sheet 'gid'
     cloud_sources = {
-        "Spanish": "0",
-        "French": "1979626029",
-        "Vulcan": "1706569588",
-        "Hebrew": "2050849856"
-    }
+    "Spanish": "0",
+    "French": "1979626029",
+    "Vulcan": "1706569588",
+    "Hebrew": "2050849856",
+    "Cherokee": "536791395"
+}
     
     # We build the master database (keeping the Sci-Fi ones here for now)
     master_db = {
@@ -59,6 +60,7 @@ def load_cloud_database():
         "French": [],
         "Vulcan": [],
         "Hebrew":[],
+        "Cherokee":[],
         "Klingon": [
             {"q": "nuqneH", "p": "(nook-NEKH)", "a": "What do you want? / Hello", "options": ["Goodbye", "What do you want? / Hello", "Honor", "Battle"], "audio": None},
             {"q": "Qapla'", "p": "(KAH-plah)", "a": "Success!", "options": ["Failure", "Success!", "Attack", "Defend"], "audio": None},
@@ -84,7 +86,7 @@ def load_cloud_database():
             elif lang == "Hebrew":
                 audio_code = "iw" # Modern Hebrew code
             else:
-                audio_code = None # Disables audio for Vulcan/Klingon/etc.
+                audio_code = None # Disables audio for Vulcan, Klingon, and now Cherokee
             
             for index, row in df.iterrows():
                 # Grab all the answers and shuffle them
