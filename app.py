@@ -110,7 +110,7 @@ VOCAB_DB = load_cloud_database()
 # --- HYBRID AUDIO GENERATOR ---
 def play_audio(text, lang_code):
     if lang_code is None:
-        st.toast("⚠️ Audio telemetry unavailable for this dialect. Please read the phonetic spelling.", icon="🔇")
+        st.toast("⚠️ Audio telemetry unavailable for this dialect.", icon="🔇")
         return
     try:
         tts = gTTS(text=text, lang=lang_code)
@@ -118,11 +118,18 @@ def play_audio(text, lang_code):
         with open("temp.mp3", "rb") as f:
             data = f.read()
             b64 = base64.b64encode(data).decode()
-            md = f'<audio autoplay><source src="data:audio/mp3;base64,{b64}" type="audio/mp3"></audio>'
-            st.markdown(md, unsafe_allow_html=True)
+            
+        # We use a unique ID (timestamp) to force the browser to re-render the audio tag
+        unique_id = time.time()
+        md = f"""
+            <audio autoplay key="{unique_id}">
+                <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            </audio>
+            """
+        st.markdown(md, unsafe_allow_html=True)
         os.remove("temp.mp3")
     except Exception as e:
-        st.error("Audio uplink failed.")
+        st.error(f"Audio uplink failed: {e}")
 
 def load_new_question():
     st.session_state.current_q = random.choice(VOCAB_DB[st.session_state.target_lang])
