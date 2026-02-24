@@ -132,13 +132,26 @@ if st.session_state.current_q is None:
 
 # --- HEADER: GAMIFICATION ---
 c1, c2, c3 = st.columns([1, 2, 1])
-with c1: st.markdown(f"🔥 **Streak: {st.session_state.streak}**")
-with c2: 
+current_rank = get_rank(st.session_state.xp)
+def get_rank(xp):
+    if xp < 100: return "Novice"
+    if xp < 500: return "Voyager"
+    if xp < 1500: return "Prime Speaker"
+    if xp < 5000: return "Polyglot"
+    if xp < 10000: return "Universal Translator"
+    return "Galactic Linguist"
+
+with c1:
+    st.markdown(f"🔥 **Streak: {st.session_state.streak}**")
+    st.markdown(f"🏆 **Rank: {current_rank}**") # Added Rank Display
+
+with c2:
+    # Calculate progress toward the next 100 XP milestone for the bar
     xp_percentage = min(100, (st.session_state.xp % 100))
     st.markdown(f'<div class="xp-bar"><div class="xp-fill" style="width: {xp_percentage}%;"></div></div>', unsafe_allow_html=True)
-with c3: st.markdown(f"⭐ **XP: {st.session_state.xp}**")
 
-st.divider()
+with c3:
+    st.markdown(f"⭐ **XP: {st.session_state.xp}**")
 
 # --- MAIN LESSON UI ---
 new_lang = st.selectbox("Select Target Language:", list(VOCAB_DB.keys()), index=list(VOCAB_DB.keys()).index(st.session_state.target_lang))
