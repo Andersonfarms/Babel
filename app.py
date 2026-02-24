@@ -53,7 +53,7 @@ def load_cloud_database():
     "Hebrew": "2050849856",
     "Cherokee": "536791395",
     "Klingon": "226168764",
-    "High Valyrian": "23375132"
+    "High Valyrian": "23375132",
 }
     
     # We build the master database (keeping the Sci-Fi ones here for now)
