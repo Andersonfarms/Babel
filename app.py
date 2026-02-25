@@ -39,7 +39,6 @@ labels = load_languages()
 def get_ui_text(label_key, default_text=""):
     """Fetches text from Supabase, prioritizing the 'preferred_name' column if it exists."""
     label_data = labels.get(label_key, {})
-    # This automatically uses your preferred naming conventions if you added them to the database
     return label_data.get('preferred_name') or label_data.get('english_text') or default_text
 
 # Custom styling
@@ -94,3 +93,14 @@ def load_cloud_database():
                 master_db[lang].append({
                     "q": str(row.get(lang, "")),
                     "script": str(row.get("Script", "")) if "Script" in df.columns else None,
+                    "p": str(row.get("Phonetic", "")),
+                    "a": str(row.get("Correct Translation", "")),
+                    "options": options,
+                    "audio": audio_code
+                })
+    except Exception as e:
+        st.error("⚠️ Cloud Database Uplink Failed. Check your Sheet IDs.")
+    
+    return master_db
+
+VOCAB_DB = load_cloud_database()
