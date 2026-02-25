@@ -93,4 +93,4 @@ def load_cloud_database():
                 
                 master_db[lang].append({
                     "q": str(row.get(lang, "")),
-                    "script": str(row.get("
+                    "script": str(row.get("Script", "")) if "Script" in df.columns else None,
